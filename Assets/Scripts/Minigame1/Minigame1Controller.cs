@@ -6,7 +6,7 @@ public class Minigame1Controller : MonoBehaviour
 {
     public static Minigame1Controller main;
 
-    private const int MAXITEMS = 7;
+    private const int MAXITEMS = 9;
     private int _foundItems = 0;
 
     public int MaxItems => MAXITEMS;

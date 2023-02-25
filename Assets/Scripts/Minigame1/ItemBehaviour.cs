@@ -7,12 +7,15 @@ public class ItemBehaviour : MonoBehaviour
 {
     private float _intitialScale;
 
+    [SerializeField] private string _itemName;
+
     private void Start()
     {
         _intitialScale = gameObject.transform.localScale.x;
     }
     private void OnMouseDown()
     {
+        gameObject.GetComponent<Collider2D>().enabled = false;
         ItemFound();
         StartCoroutine(GrowItem());
     }
@@ -23,6 +26,7 @@ public class ItemBehaviour : MonoBehaviour
     private void ItemFound()
     {
         Minigame1Controller.main.IncrementItems();
+        Minigame1Canvas.main.UpdateChecklist(_itemName);
     }
 
     /// <summary>

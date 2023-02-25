@@ -7,7 +7,10 @@ public class Minigame1Canvas : MonoBehaviour
 {
     public static Minigame1Canvas main;
 
-    [SerializeField] private TextMeshProUGUI _foundItemsText;
+    private TextMeshProUGUI _foundItemsText;
+    private TextMeshProUGUI[] _checklistTextArr;
+    [SerializeField] private GameObject _checklist;
+    [SerializeField] private GameObject _checklistHeader;
 
     private void Awake()
     {
@@ -21,10 +24,26 @@ public class Minigame1Canvas : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            _checklist.SetActive(true);
+            _checklistHeader.SetActive(true);
+        }
+        if(Input.GetKeyUp(KeyCode.Tab))
+        {
+            _checklist.SetActive(false);
+            _checklistHeader.SetActive(false);
+        }    
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         _foundItemsText = GetComponentInChildren<TextMeshProUGUI>();
+        _checklistTextArr = GameObject.Find("Checklist").GetComponentsInChildren<TextMeshProUGUI>();
+        _checklist.SetActive(false);
     }
 
     /// <summary>
@@ -33,5 +52,15 @@ public class Minigame1Canvas : MonoBehaviour
     public void UpdateFoundItemsText()
     {
         _foundItemsText.text = Minigame1Controller.main.FoundItems + "/" + Minigame1Controller.main.MaxItems + " Items Found!";
+    }
+
+    /// <summary>
+    /// Updates the checklist with the found item
+    /// </summary>
+    /// <param name="itemName"> name of the found item </param>
+    public void UpdateChecklist(string itemName)
+    {
+        _checklistTextArr[Minigame1Controller.main.FoundItems-1].text = itemName;
+        _checklistTextArr[Minigame1Controller.main.FoundItems-1].fontStyle = FontStyles.Strikethrough;
     }
 }
