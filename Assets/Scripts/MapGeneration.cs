@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class MapGeneration : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private int mapCount;
+    GameObject[] mapArray = GameObject.FindGameObjectsWithTag("Map");
+
+    private void Awake()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Generate();
+        Destroy(this.gameObject);
+    }
+
+
+    private void Generate()
+    {
+        mapCount++;
+        mapArray[mapCount].SetActive(true);
     }
 }
