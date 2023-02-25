@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class MapGeneration : MonoBehaviour
 {
-    private int mapCount;
+    public static MapGeneration main;
+
+    private int mapCount = 0;
     [SerializeField] GameObject[] mapArray;
 
     private void Awake()
     {
+        if(main == null)
+        {
+            main = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     private void Start()
@@ -21,17 +31,9 @@ public class MapGeneration : MonoBehaviour
         }
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Generate()
     {
-        Generate();
-        Destroy(this.gameObject);
-    }
-
-
-    private void Generate()
-    {
-        mapCount++;
         mapArray[mapCount].SetActive(true);
+        mapCount++;
     }
 }
