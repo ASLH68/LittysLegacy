@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapGeneration : MonoBehaviour
 {
     private int mapCount;
-    GameObject[] mapArray = GameObject.FindGameObjectsWithTag("Map");
+    [SerializeField] GameObject[] mapArray;
 
     private void Awake()
     {
@@ -13,6 +13,12 @@ public class MapGeneration : MonoBehaviour
 
     private void Start()
     {
+        mapArray = GameObject.FindGameObjectsWithTag("Map");
+
+        foreach (GameObject obj in mapArray)
+        {
+            obj.SetActive(false);
+        }
     }
 
 
