@@ -11,7 +11,7 @@ public class GMPuzzle : MonoBehaviour
     private int emptyLocation;
     private int size;
     private bool shuffling = false;
-
+    public AudioSource sound;
 
     // Create the game setup with size x size pieces.
     private void CreateGamePieces(float gapThickness)
@@ -75,6 +75,7 @@ public class GMPuzzle : MonoBehaviour
         // On click send out ray to see if we click a piece.
         if (Input.GetMouseButtonDown(0))
         {
+            sound.Play();
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit)
             {
