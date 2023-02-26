@@ -24,12 +24,12 @@ public class MusicController : MonoBehaviour
         GetComponent<AudioSource>().Play();
     }
 
-    private void MuteMusic()
+    public void MuteMusic()
     {
         GetComponent<AudioSource>().mute = true;
     }
 
-    private void UnmuteMusic()
+    public void UnmuteMusic()
     {
         GetComponent<AudioSource>().mute = false;
     }

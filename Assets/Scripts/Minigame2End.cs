@@ -13,6 +13,7 @@ public class Minigame2End : MonoBehaviour
 
     public void NextButton()
     {
+        MusicController.main.UnmuteMusic();
         SceneTransition.main.LoadLevel();
     }
 }

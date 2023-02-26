@@ -13,6 +13,9 @@ public class GMPuzzle : MonoBehaviour
     private bool shuffling = false;
     public AudioSource sound;
 
+    private bool hasPlayed = false;
+    [SerializeField] private GameObject _nextButton;
+
     // Create the game setup with size x size pieces.
     private void CreateGamePieces(float gapThickness)
     {
@@ -66,15 +69,20 @@ public class GMPuzzle : MonoBehaviour
     void Update()
     {
         // Check for completion.
-        if (!shuffling && CheckCompletion())
+        if (!shuffling && CheckCompletion() && !hasPlayed)
         {
             shuffling = true;
             StartCoroutine(WaitShuffle(0.5f));
+        }
+        if (!shuffling && CheckCompletion() && hasPlayed)
+        {
+            _nextButton.SetActive(true);
         }
 
         // On click send out ray to see if we click a piece.
         if (Input.GetMouseButtonDown(0))
         {
+            hasPlayed = true;
             sound.Play();
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit)
@@ -122,7 +130,6 @@ public class GMPuzzle : MonoBehaviour
                 return false;
             }
         }
-        Debug.Log("Hello");
         return true;
     }
 
