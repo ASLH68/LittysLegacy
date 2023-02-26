@@ -9,7 +9,7 @@ public class LoadAfterCutscene : MonoBehaviour
     private VideoPlayer _videoPlayer;
     void Start()
     {
-        _videoPlayer = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
+        _videoPlayer = GameObject.Find("Main Camera").GetComponent<VideoPlayer>();
         _videoPlayer.loopPointReached += EndReached;
     }
 

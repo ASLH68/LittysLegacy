@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        _currentPanel = _mainMenuPanel;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void OpenHowToPlay()
