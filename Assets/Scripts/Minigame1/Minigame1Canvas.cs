@@ -78,6 +78,6 @@ public class Minigame1Canvas : MonoBehaviour
 
     public void NextButton()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneTransition.main.LoadLevel();
     }
 }
