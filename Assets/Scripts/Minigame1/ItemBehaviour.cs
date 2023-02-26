@@ -17,7 +17,8 @@ public class ItemBehaviour : MonoBehaviour
     {
         gameObject.GetComponent<Collider2D>().enabled = false;
         ItemFound();
-        StartCoroutine(GrowItem());
+        //StartCoroutine(GrowItem());
+        GetComponent<SpriteRenderer>().color = Color.black;
     }
 
     /// <summary>
