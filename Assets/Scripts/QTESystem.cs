@@ -6,11 +6,16 @@ using UnityEngine.UI;
 public class QTESystem : MonoBehaviour
 {
     public static QTESystem main;
+    [SerializeField] public AudioClip yeowch;
 
     public bool isCorrect = false;
 
     public GameObject DisplayBox;
     public GameObject PassBox;
+
+    public GameObject hurtIcon1;
+    public GameObject hurtIcon2;
+    public GameObject hurtIcon3;
 
     // Not necessary, but here's a counter to how much you've failed/won.
     //public GameObject victories;
@@ -22,7 +27,9 @@ public class QTESystem : MonoBehaviour
     public int QTEGenerate;
     public int WaitingForKey;
     public int CorrectKey;
-/*    public int CountingDown;*/
+    /*    public int CountingDown;*/
+    public int hurtCounter;
+
     private void Awake()
     {
         if (main == null)
@@ -32,6 +39,11 @@ public class QTESystem : MonoBehaviour
         else
         {
             Destroy(this);
+        }
+
+        if (this.gameObject.GetComponent<PlayerMovement>().enabled != true)
+        {
+            this.gameObject.GetComponent<PlayerMovement>().enabled = true;
         }
     }
 
@@ -133,6 +145,23 @@ public class QTESystem : MonoBehaviour
                     StartCoroutine(KeyPressing());
                 }
             }
+        }
+
+        if (hurtCounter == 1)
+        {
+            hurtIcon1.SetActive(true);
+            
+        }
+        else if (hurtCounter == 2)
+        {
+            hurtIcon2.SetActive(true);
+            
+        }
+        else if (hurtCounter == 3)
+        {
+            hurtIcon3.SetActive(true);
+            
+            StartCoroutine(WaitToRestart());
         }
     }
 
@@ -248,5 +277,33 @@ public class QTESystem : MonoBehaviour
             // Start the countdown.
 /*            StartCoroutine(CountDown());*/
         }
+    }
+
+
+    public void Reset()
+    {
+        PassBox.GetComponent<Text>().text = "";
+        DisplayBox.GetComponent<Text>().text = "";
+    }
+
+    public void Ouch()
+    {
+        PassBox.GetComponent<Text>().text = "Oof!";
+    }    
+
+    IEnumerator WaitToRestart()
+    {
+        this.gameObject.transform.position = new Vector2(-6, -2);
+        hurtCounter = 0;
+        hurtIcon1.SetActive(false);
+        hurtIcon2.SetActive(false);
+        hurtIcon3.SetActive(false);
+        this.gameObject.GetComponent<PlayerMovement>().enabled = true;
+        yield return null;
+    }
+
+    public void PlaySound()
+    {
+        AudioSource.PlayClipAtPoint(yeowch, Camera.main.transform.position);
     }
 }
