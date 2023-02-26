@@ -43,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
         else if (SceneManager.GetActiveScene().name == "Minigame2")
         {
             ConstantMoving();
-            _playerAnimator.SetTrigger("IsRunning");
         }
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
@@ -110,6 +109,8 @@ public class PlayerMovement : MonoBehaviour
     {
         float currentSpeed = _runSpeed;
 
-        _rb2d.velocity = new Vector2(1, 0) * currentSpeed;
+        //_rb2d.velocity = new Vector2(1, 0) * currentSpeed;
+
+        transform.Translate(Vector2.right * 1 * Time.deltaTime * _runSpeed);
     }
 }
