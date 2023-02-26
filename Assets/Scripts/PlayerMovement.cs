@@ -92,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
     /// <returns></returns>
     private bool IsRunning()
     {
-        return Input.GetAxisRaw("Horizontal") != 0;
+        return Input.GetAxisRaw("Horizontal") != 0 || SceneManager.GetActiveScene().name == "Minigame2";
     }
 
     public void Jump()
