@@ -49,7 +49,36 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             Jump();
+            /*_playerAnimator.ResetTrigger("IsRunning");
+            _playerAnimator.SetBool("Jump", true);
+            _playerAnimator.SetTrigger("IsJumping");*/
         }
+        if (IsGrounded())
+        {
+            /*_playerAnimator.SetBool("Jump", false);
+            _playerAnimator.ResetTrigger("IsJumping");*/
+        }
+        SetAnimation();
+    }
+
+    private void SetAnimation()
+    {
+        if (!IsGrounded())
+        {
+            Debug.Log("jump");
+            _playerAnimator.Play("SolomonJumpAnimation");
+        }
+        else if (IsRunning())
+        {
+            Debug.Log("run");
+            _playerAnimator.Play("SolomonRunCycle");
+        }
+        else
+        {
+            Debug.Log("idle");
+            _playerAnimator.Play("SolomonIdleAnimation");
+        }
+
     }
 
     /// <summary>
@@ -61,16 +90,9 @@ public class PlayerMovement : MonoBehaviour
         if (IsRunning())
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = (Input.GetAxisRaw("Horizontal") < 0);
+        }
 
-            _playerAnimator.ResetTrigger("IsIdle");
-            _playerAnimator.SetTrigger("IsRunning");
-        }
-        else
-        {
-            _playerAnimator.ResetTrigger("IsRunning");
-            _playerAnimator.SetTrigger("IsIdle");
-        }
-        transform.Translate(Vector2.right * Input.GetAxis("Horizontal") * Time.deltaTime *_runSpeed);
+        transform.Translate(Vector2.right * Input.GetAxis("Horizontal") * Time.deltaTime * _runSpeed);
     }
 
     /// <summary>
