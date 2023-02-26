@@ -9,10 +9,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _walkSpeed;
     [SerializeField] float _runSpeed;
     private Rigidbody2D _rb2d;
+    [SerializeField] Animator _playerAnimator;
 
     private void Awake()
     {
-        if(main == null)
+        if (main == null)
         {
             main = this;
         }
@@ -29,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Move();
     }
@@ -39,9 +40,22 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        float currentSpeed = IsRunning()? _runSpeed: _walkSpeed;
-           
-        _rb2d.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), 0) * currentSpeed;
+        if (IsRunning())
+        {
+
+            gameObject.GetComponent<SpriteRenderer>().flipX = (Input.GetAxisRaw("Horizontal") < 0);
+
+
+            _playerAnimator.ResetTrigger("IsIdle");
+            _playerAnimator.SetTrigger("IsRunning");
+        }
+        else
+        {
+            _playerAnimator.ResetTrigger("IsRunning");
+            _playerAnimator.SetTrigger("IsIdle");
+        }
+
+        _rb2d.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), 0) * _walkSpeed;
     }
 
     /// <summary>
@@ -50,6 +64,6 @@ public class PlayerMovement : MonoBehaviour
     /// <returns></returns>
     private bool IsRunning()
     {
-        return Input.GetKey(KeyCode.LeftShift);
+        return Input.GetAxisRaw("Horizontal") != 0;
     }
 }
