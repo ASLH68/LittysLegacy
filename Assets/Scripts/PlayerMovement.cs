@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == "Minigame2")
         {
-            //ConstantMoving();
+            ConstantMoving();
         }
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
@@ -102,6 +102,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return transform.position.y < 0.8f;
+        return transform.position.y < -2.1;
+    }
+
+    private void ConstantMoving()
+    {
+        transform.Translate(Vector2.right * 1 * Time.deltaTime * _runSpeed);
     }
 }

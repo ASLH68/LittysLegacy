@@ -6,11 +6,16 @@ using UnityEngine.UI;
 public class QTESystem : MonoBehaviour
 {
     public static QTESystem main;
+    [SerializeField] public AudioClip yeowch;
 
     public bool isCorrect = false;
 
     public GameObject DisplayBox;
     public GameObject PassBox;
+
+    public GameObject hurtIcon1;
+    public GameObject hurtIcon2;
+    public GameObject hurtIcon3;
 
     // Not necessary, but here's a counter to how much you've failed/won.
     //public GameObject victories;
@@ -22,7 +27,9 @@ public class QTESystem : MonoBehaviour
     public int QTEGenerate;
     public int WaitingForKey;
     public int CorrectKey;
-    public int CountingDown;
+    /*    public int CountingDown;*/
+    public int hurtCounter;
+
     private void Awake()
     {
         if (main == null)
@@ -32,6 +39,11 @@ public class QTESystem : MonoBehaviour
         else
         {
             Destroy(this);
+        }
+
+        if (this.gameObject.GetComponent<PlayerMovement>().enabled != true)
+        {
+            this.gameObject.GetComponent<PlayerMovement>().enabled = true;
         }
     }
 
@@ -134,6 +146,23 @@ public class QTESystem : MonoBehaviour
                 }
             }
         }
+
+        if (hurtCounter == 1)
+        {
+            hurtIcon1.SetActive(true);
+            
+        }
+        else if (hurtCounter == 2)
+        {
+            hurtIcon2.SetActive(true);
+            
+        }
+        else if (hurtCounter == 3)
+        {
+            hurtIcon3.SetActive(true);
+            
+            StartCoroutine(WaitToRestart());
+        }
     }
 
     IEnumerator KeyPressing()
@@ -144,24 +173,27 @@ public class QTESystem : MonoBehaviour
         // If you're right, then...
         if (CorrectKey == 1)
         {
+            isCorrect = true;
             // No longer counting down.
-            CountingDown = 2;
+/*            CountingDown = 2;*/
 
             // Prints out for debug reasons.
             Debug.Log("win");
             victoryNumber++;
             //victories.GetComponent<Text>().text = "Wins: " + victoryNumber;
 
-            isCorrect = true;
+            //PlayerMovement.main.Jump();
 
             // Change the pass/fail text to pass text.
             PassBox.GetComponent<Text>().text = "Nice!";
 
             // Reset sequence.
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.5f);
             CorrectKey = 0;
             PassBox.GetComponent<Text>().text = "";
             DisplayBox.GetComponent<Text>().text = "";
+            WaitingForKey = 0;
+/*            CountingDown = 1;*/
 
             /*// Restarts the new QTE process; may not be necessary for what
             // we're doing.
@@ -174,24 +206,25 @@ public class QTESystem : MonoBehaviour
         // If you're wrong, then...
         if (CorrectKey == 2)
         {
+            isCorrect = false;
             // No longer counting down.
-            CountingDown = 2;
+/*            CountingDown = 2;*/
 
             // Prints out for debug reasons.
             Debug.Log("fail");
             failNumber++;
             //fails.GetComponent<Text>().text = "Fails: " + failNumber;
 
-            isCorrect = false;
-
             // Change the pass/fail text to fail text.
             PassBox.GetComponent<Text>().text = "Oof!";
 
             // Reset sequence.
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.5f);
             CorrectKey = 0;
             PassBox.GetComponent<Text>().text = "";
             DisplayBox.GetComponent<Text>().text = "";
+            WaitingForKey = 0;
+/*            CountingDown = 1;*/
 
             /*// Restarts the new QTE process; may not be necessary for what
             // we're doing.
@@ -202,7 +235,7 @@ public class QTESystem : MonoBehaviour
         }
     }
 
-    IEnumerator CountDown()
+/*    IEnumerator CountDown()
     {
         // Player has 3.5 seconds to do something.
         yield return new WaitForSeconds(3.5f);
@@ -223,13 +256,13 @@ public class QTESystem : MonoBehaviour
             PassBox.GetComponent<Text>().text = "";
             DisplayBox.GetComponent<Text>().text = "";
 
-            /*// Restarts the new QTE process; may not be necessary for what
+            *//*// Restarts the new QTE process; may not be necessary for what
             // we're doing.
             yield return new WaitForSeconds(1.5f);
             WaitingForKey = 0;
-            CountingDown = 1;*/
+            CountingDown = 1;*//*
         }
-    }
+    }*/
 
     public void EventStart()
     {
@@ -239,10 +272,38 @@ public class QTESystem : MonoBehaviour
             QTEGenerate = Random.Range(1, 4);
             // Debug purposes.
             Debug.Log(QTEGenerate);
-            CountingDown = 1;
+/*            CountingDown = 1;*/
             StopAllCoroutines();
             // Start the countdown.
-            StartCoroutine(CountDown());
+/*            StartCoroutine(CountDown());*/
         }
+    }
+
+
+    public void Reset()
+    {
+        PassBox.GetComponent<Text>().text = "";
+        DisplayBox.GetComponent<Text>().text = "";
+    }
+
+    public void Ouch()
+    {
+        PassBox.GetComponent<Text>().text = "Oof!";
+    }    
+
+    IEnumerator WaitToRestart()
+    {
+        this.gameObject.transform.position = new Vector2(-6, -2);
+        hurtCounter = 0;
+        hurtIcon1.SetActive(false);
+        hurtIcon2.SetActive(false);
+        hurtIcon3.SetActive(false);
+        this.gameObject.GetComponent<PlayerMovement>().enabled = true;
+        yield return null;
+    }
+
+    public void PlaySound()
+    {
+        AudioSource.PlayClipAtPoint(yeowch, Camera.main.transform.position);
     }
 }
