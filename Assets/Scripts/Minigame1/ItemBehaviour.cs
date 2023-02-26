@@ -15,10 +15,13 @@ public class ItemBehaviour : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        gameObject.GetComponent<Collider2D>().enabled = false;
-        ItemFound();
-        //StartCoroutine(GrowItem());
-        GetComponent<SpriteRenderer>().color = Color.black;
+        if (Minigame1Controller.main.IsInteractable)
+        {
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            ItemFound();
+            //StartCoroutine(GrowItem());
+            GetComponent<SpriteRenderer>().color = Color.black;
+        }
     }
 
     /// <summary>

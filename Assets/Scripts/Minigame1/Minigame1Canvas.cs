@@ -27,16 +27,19 @@ public class Minigame1Canvas : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if (Minigame1Controller.main.IsInteractable)
         {
-            _checklist.SetActive(true);
-            _checklistHeader.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                _checklist.SetActive(true);
+                _checklistHeader.SetActive(true);
+            }
+            if (Input.GetKeyUp(KeyCode.Tab))
+            {
+                _checklist.SetActive(false);
+                _checklistHeader.SetActive(false);
+            }
         }
-        if(Input.GetKeyUp(KeyCode.Tab))
-        {
-            _checklist.SetActive(false);
-            _checklistHeader.SetActive(false);
-        }    
     }
 
     // Start is called before the first frame update
@@ -68,5 +71,6 @@ public class Minigame1Canvas : MonoBehaviour
     public void ToolTipToggle()
     {
         _tooltipPanel.SetActive(!_tooltipPanel.activeSelf);
+        Minigame1Controller.main.IsInteractable = !Minigame1Controller.main.IsInteractable;
     }
 }

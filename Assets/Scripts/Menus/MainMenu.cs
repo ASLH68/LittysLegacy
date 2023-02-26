@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneTransition.main.LoadLevel();
     }
 
     public void OpenHowToPlay()

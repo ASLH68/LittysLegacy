@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Minigame1Controller : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Minigame1Controller : MonoBehaviour
 
     private const int MAXITEMS = 9;
     private int _foundItems = 0;
+
+    public bool IsInteractable;
 
     public int MaxItems => MAXITEMS;
     public int FoundItems => _foundItems;
@@ -31,5 +34,10 @@ public class Minigame1Controller : MonoBehaviour
     {
         _foundItems++;
         Minigame1Canvas.main.UpdateFoundItemsText();
+
+        if(_foundItems == 9)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }
