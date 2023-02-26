@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float _walkSpeed;
     [SerializeField] float _runSpeed;
+    [SerializeField] float _jumpVelocity;
     private Rigidbody2D _rb2d;
 
     private void Awake()
@@ -31,7 +33,14 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        if (SceneManager.GetActiveScene().name == "LevelOne")
+        {
+            Move();
+        }
+        else if (SceneManager.GetActiveScene().name == "Minigame2")
+        {
+            ConstantMoving();
+        }
     }
 
     /// <summary>
@@ -44,6 +53,13 @@ public class PlayerMovement : MonoBehaviour
         _rb2d.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), 0) * currentSpeed;
     }
 
+    private void ConstantMoving()
+    {
+        float currentSpeed = _runSpeed;
+
+        _rb2d.velocity = new Vector2(1, 0) * currentSpeed;
+    }
+
     /// <summary>
     /// Returns whether or not the player is running
     /// </summary>
@@ -51,5 +67,10 @@ public class PlayerMovement : MonoBehaviour
     private bool IsRunning()
     {
         return Input.GetKey(KeyCode.LeftShift);
+    }
+
+    public void Jump()
+    {
+        _rb2d.AddForce(new Vector2(0f, _jumpVelocity));
     }
 }

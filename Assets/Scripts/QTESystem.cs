@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 public class QTESystem : MonoBehaviour
 {
+    public static QTESystem main;
+
+    public bool isCorrect = false;
+
     public GameObject DisplayBox;
     public GameObject PassBox;
 
     // Not necessary, but here's a counter to how much you've failed/won.
-    public GameObject victories;
-    public GameObject fails;
+    //public GameObject victories;
+    //public GameObject fails;
     public int failNumber = 0;
     public int victoryNumber = 0;
 
@@ -19,11 +23,21 @@ public class QTESystem : MonoBehaviour
     public int WaitingForKey;
     public int CorrectKey;
     public int CountingDown;
-
+    private void Awake()
+    {
+        if (main == null)
+        {
+            main = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     void Update()
     {
-        // If nothing is happening, start the process.
+        /*// If nothing is happening, start the process.
         if (WaitingForKey == 0)
         {
             // Generate a random letter.
@@ -34,7 +48,7 @@ public class QTESystem : MonoBehaviour
             StopAllCoroutines();
             // Start the countdown.
             StartCoroutine(CountDown());
-        }
+        }*/
         
         // If it is 1, Generate E on screen. You are no longer waiting for key.
         if (QTEGenerate == 1)
@@ -136,10 +150,12 @@ public class QTESystem : MonoBehaviour
             // Prints out for debug reasons.
             Debug.Log("win");
             victoryNumber++;
-            victories.GetComponent<Text>().text = "Wins: " + victoryNumber;
+            //victories.GetComponent<Text>().text = "Wins: " + victoryNumber;
+
+            isCorrect = true;
 
             // Change the pass/fail text to pass text.
-            PassBox.GetComponent<Text>().text = "ggez";
+            PassBox.GetComponent<Text>().text = "Nice!";
 
             // Reset sequence.
             yield return new WaitForSeconds(1.5f);
@@ -147,11 +163,11 @@ public class QTESystem : MonoBehaviour
             PassBox.GetComponent<Text>().text = "";
             DisplayBox.GetComponent<Text>().text = "";
 
-            // Restarts the new QTE process; may not be necessary for what
+            /*// Restarts the new QTE process; may not be necessary for what
             // we're doing.
             yield return new WaitForSeconds(1.5f);
             WaitingForKey = 0;
-            CountingDown = 1;
+            CountingDown = 1;*/
 
         }
 
@@ -164,10 +180,12 @@ public class QTESystem : MonoBehaviour
             // Prints out for debug reasons.
             Debug.Log("fail");
             failNumber++;
-            fails.GetComponent<Text>().text = "Fails: " + failNumber;
+            //fails.GetComponent<Text>().text = "Fails: " + failNumber;
+
+            isCorrect = false;
 
             // Change the pass/fail text to fail text.
-            PassBox.GetComponent<Text>().text = "well, you certainly tried";
+            PassBox.GetComponent<Text>().text = "Oof!";
 
             // Reset sequence.
             yield return new WaitForSeconds(1.5f);
@@ -175,11 +193,11 @@ public class QTESystem : MonoBehaviour
             PassBox.GetComponent<Text>().text = "";
             DisplayBox.GetComponent<Text>().text = "";
 
-            // Restarts the new QTE process; may not be necessary for what
+            /*// Restarts the new QTE process; may not be necessary for what
             // we're doing.
             yield return new WaitForSeconds(1.5f);
             WaitingForKey = 0;
-            CountingDown = 1;
+            CountingDown = 1;*/
 
         }
     }
@@ -197,7 +215,7 @@ public class QTESystem : MonoBehaviour
             CountingDown = 2;
             // Player ran out of time.
             // Practically the same as the fail protocol above in KeyPressing
-            PassBox.GetComponent<Text>().text = "well, you certainly tried";
+            PassBox.GetComponent<Text>().text = "Oof!";
 
             // Resets sequence.
             yield return new WaitForSeconds(1.5f);
@@ -205,11 +223,26 @@ public class QTESystem : MonoBehaviour
             PassBox.GetComponent<Text>().text = "";
             DisplayBox.GetComponent<Text>().text = "";
 
-            // Restarts the new QTE process; may not be necessary for what
+            /*// Restarts the new QTE process; may not be necessary for what
             // we're doing.
             yield return new WaitForSeconds(1.5f);
             WaitingForKey = 0;
+            CountingDown = 1;*/
+        }
+    }
+
+    public void EventStart()
+    {
+        if (WaitingForKey == 0)
+        {
+            // Generate a random letter.
+            QTEGenerate = Random.Range(1, 4);
+            // Debug purposes.
+            Debug.Log(QTEGenerate);
             CountingDown = 1;
+            StopAllCoroutines();
+            // Start the countdown.
+            StartCoroutine(CountDown());
         }
     }
 }
