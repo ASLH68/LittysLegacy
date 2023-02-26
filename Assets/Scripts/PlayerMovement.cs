@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -32,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (SceneManager.GetActiveScene().name == "LevelOne")
         {
@@ -40,7 +42,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == "Minigame2")
         {
-            ConstantMoving();
+            //ConstantMoving();
+        }
+
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            Jump();
         }
     }
 
@@ -49,11 +56,10 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Move()
     {
+
         if (IsRunning())
         {
-
             gameObject.GetComponent<SpriteRenderer>().flipX = (Input.GetAxisRaw("Horizontal") < 0);
-
 
             _playerAnimator.ResetTrigger("IsIdle");
             _playerAnimator.SetTrigger("IsRunning");
@@ -63,15 +69,7 @@ public class PlayerMovement : MonoBehaviour
             _playerAnimator.ResetTrigger("IsRunning");
             _playerAnimator.SetTrigger("IsIdle");
         }
-
-        _rb2d.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), 0) * _walkSpeed;
-    }
-
-    private void ConstantMoving()
-    {
-        float currentSpeed = _runSpeed;
-
-        _rb2d.velocity = new Vector2(1, 0) * currentSpeed;
+        transform.Translate(Vector2.right * Input.GetAxis("Horizontal") * Time.deltaTime *_runSpeed);
     }
 
     /// <summary>
@@ -85,6 +83,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump()
     {
-        _rb2d.AddForce(new Vector2(0f, _jumpVelocity));
+        _rb2d.AddForce(new Vector2(0f, _jumpVelocity), ForceMode2D.Impulse);
+    }
+
+    private bool IsGrounded()
+    {
+        return transform.position.y < 0.8f;
     }
 }
