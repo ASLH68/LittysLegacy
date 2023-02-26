@@ -11,6 +11,7 @@ public class Minigame1Canvas : MonoBehaviour
     private TextMeshProUGUI[] _checklistTextArr;
     [SerializeField] private GameObject _checklist;
     [SerializeField] private GameObject _checklistHeader;
+    [SerializeField] private GameObject _tooltipPanel;
 
     private void Awake()
     {
@@ -62,5 +63,10 @@ public class Minigame1Canvas : MonoBehaviour
     {
         _checklistTextArr[Minigame1Controller.main.FoundItems-1].text = itemName;
         _checklistTextArr[Minigame1Controller.main.FoundItems-1].fontStyle = FontStyles.Strikethrough;
+    }
+
+    public void ToolTipToggle()
+    {
+        _tooltipPanel.SetActive(!_tooltipPanel.activeSelf);
     }
 }
