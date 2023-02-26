@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,10 +13,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _runSpeed;
     [SerializeField] float _jumpVelocity;
     private Rigidbody2D _rb2d;
+    [SerializeField] Animator _playerAnimator;
 
     private void Awake()
     {
-        if(main == null)
+        if (main == null)
         {
             main = this;
         }
@@ -39,7 +42,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == "Minigame2")
         {
-            ConstantMoving();
+            //ConstantMoving();
+        }
+
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            Jump();
         }
     }
 
@@ -48,16 +56,20 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        float currentSpeed = IsRunning()? _runSpeed: _walkSpeed;
-           
-        _rb2d.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), 0) * currentSpeed;
-    }
 
-    private void ConstantMoving()
-    {
-        float currentSpeed = _runSpeed;
+        if (IsRunning())
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = (Input.GetAxisRaw("Horizontal") < 0);
 
-        _rb2d.velocity = new Vector2(1, 0) * currentSpeed;
+            _playerAnimator.ResetTrigger("IsIdle");
+            _playerAnimator.SetTrigger("IsRunning");
+        }
+        else
+        {
+            _playerAnimator.ResetTrigger("IsRunning");
+            _playerAnimator.SetTrigger("IsIdle");
+        }
+        transform.Translate(Vector2.right * Input.GetAxis("Horizontal") * Time.deltaTime *_runSpeed);
     }
 
     /// <summary>
@@ -66,11 +78,16 @@ public class PlayerMovement : MonoBehaviour
     /// <returns></returns>
     private bool IsRunning()
     {
-        return Input.GetKey(KeyCode.LeftShift);
+        return Input.GetAxisRaw("Horizontal") != 0;
     }
 
     public void Jump()
     {
-        _rb2d.AddForce(new Vector2(0f, _jumpVelocity));
+        _rb2d.AddForce(new Vector2(0f, _jumpVelocity), ForceMode2D.Impulse);
+    }
+
+    private bool IsGrounded()
+    {
+        return transform.position.y < 0.8f;
     }
 }
