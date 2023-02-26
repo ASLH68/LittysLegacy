@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _jumpVelocity;
     private Rigidbody2D _rb2d;
     [SerializeField] Animator _playerAnimator;
+    [SerializeField] public AudioClip jump;
+
 
     private void Awake()
     {
@@ -98,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
     public void Jump()
     {
         _rb2d.AddForce(new Vector2(0f, _jumpVelocity), ForceMode2D.Impulse);
+        AudioSource.PlayClipAtPoint(jump, Camera.main.transform.position);
     }
 
     private bool IsGrounded()
