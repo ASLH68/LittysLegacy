@@ -7,7 +7,7 @@ public class GMPuzzle : MonoBehaviour
     [SerializeField] private Transform gameTransform;
     [SerializeField] private Transform piecePrefab;
 
-    private List<Transform> pieces;
+    [SerializeField]private List<Transform> pieces;
     private int emptyLocation;
     private int size;
     private bool shuffling = false;
@@ -122,6 +122,7 @@ public class GMPuzzle : MonoBehaviour
                 return false;
             }
         }
+        Debug.Log("Hello");
         return true;
     }
 
