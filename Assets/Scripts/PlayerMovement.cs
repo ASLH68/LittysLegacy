@@ -92,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
     /// <returns></returns>
     private bool IsRunning()
     {
-        return Input.GetAxisRaw("Horizontal") != 0;
+        return Input.GetAxisRaw("Horizontal") != 0 || SceneManager.GetActiveScene().name == "Minigame2";
     }
 
     public void Jump()
@@ -102,15 +102,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return transform.position.y < 0.8f;
+        return transform.position.y < -2.1;
     }
 
     private void ConstantMoving()
     {
-        float currentSpeed = _runSpeed;
-
-        //_rb2d.velocity = new Vector2(1, 0) * currentSpeed;
-
         transform.Translate(Vector2.right * 1 * Time.deltaTime * _runSpeed);
     }
 }
