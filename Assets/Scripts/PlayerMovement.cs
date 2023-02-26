@@ -49,14 +49,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             Jump();
-            /*_playerAnimator.ResetTrigger("IsRunning");
-            _playerAnimator.SetBool("Jump", true);
-            _playerAnimator.SetTrigger("IsJumping");*/
-        }
-        if (IsGrounded())
-        {
-            /*_playerAnimator.SetBool("Jump", false);
-            _playerAnimator.ResetTrigger("IsJumping");*/
         }
         SetAnimation();
     }
