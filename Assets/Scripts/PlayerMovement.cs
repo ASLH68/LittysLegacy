@@ -42,7 +42,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == "Minigame2")
         {
-            //ConstantMoving();
+            ConstantMoving();
+            _playerAnimator.SetTrigger("IsRunning");
         }
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
@@ -89,5 +90,12 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGrounded()
     {
         return transform.position.y < 0.8f;
+    }
+
+    private void ConstantMoving()
+    {
+        float currentSpeed = _runSpeed;
+
+        _rb2d.velocity = new Vector2(1, 0) * currentSpeed;
     }
 }
