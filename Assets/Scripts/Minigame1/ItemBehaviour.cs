@@ -8,6 +8,7 @@ public class ItemBehaviour : MonoBehaviour
     private float _intitialScale;
 
     [SerializeField] private string _itemName;
+ 
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class ItemBehaviour : MonoBehaviour
     {
         if (Minigame1Controller.main.IsInteractable)
         {
+            GetComponent<AudioSource>().Play();
             gameObject.GetComponent<Collider2D>().enabled = false;
             ItemFound();
             //StartCoroutine(GrowItem());

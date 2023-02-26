@@ -698,6 +698,7 @@ MonoBehaviour:
   _walkSpeed: 5
   _runSpeed: 7.5
   _jumpVelocity: 30
+  _playerAnimator: {fileID: 0}
 --- !u!114 &621362425
 MonoBehaviour:
   m_ObjectHideFlags: 0

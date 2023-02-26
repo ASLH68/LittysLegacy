@@ -37,7 +37,8 @@ public class Minigame1Controller : MonoBehaviour
 
         if(_foundItems == 9)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            Minigame1Canvas.main._wonPanel.SetActive(true);
+            IsInteractable = false;          
         }
     }
 }

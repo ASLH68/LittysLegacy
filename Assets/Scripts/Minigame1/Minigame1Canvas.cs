@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Minigame1Canvas : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Minigame1Canvas : MonoBehaviour
     [SerializeField] private GameObject _checklist;
     [SerializeField] private GameObject _checklistHeader;
     [SerializeField] private GameObject _tooltipPanel;
+    public GameObject _wonPanel;
 
     private void Awake()
     {
@@ -72,5 +74,10 @@ public class Minigame1Canvas : MonoBehaviour
     {
         _tooltipPanel.SetActive(!_tooltipPanel.activeSelf);
         Minigame1Controller.main.IsInteractable = !Minigame1Controller.main.IsInteractable;
+    }
+
+    public void NextButton()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

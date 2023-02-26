@@ -15,6 +15,6 @@ public class LoadAfterCutscene : MonoBehaviour
 
     void EndReached(VideoPlayer vp)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneTransition.main.LoadLevel();
     }
 }
